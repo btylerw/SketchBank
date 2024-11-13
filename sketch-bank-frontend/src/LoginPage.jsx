@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import axios from 'axios';
 import './styles/LoginPage.css';
 
 export const LoginPage = () => {
@@ -12,8 +13,18 @@ export const LoginPage = () => {
         fn(e.target.value);
     }
 
-    function handleLogin(e) {
-        setIsLoggedIn(true);
+    async function handleLogin(e) {
+        e.preventDefault();
+        const params = {username: username, password: password};
+        await axios.get('http://localhost:3000/users/login', {params: params})
+        .then(res => {
+            if (res.data.isValid) {
+                setIsLoggedIn(res.data.isValid);
+            } else {
+                const errorMsg = document.getElementById('err');
+                errorMsg.innerHTML = 'Invalid Login Info';
+            }
+        });
     }
 
     if (isLoggedIn) {
@@ -27,6 +38,7 @@ export const LoginPage = () => {
                 Password: <input type="password" onChange={(e)=> {handleChange(e, setPassword)}}/>
                 <input className="login-btn" type="submit" value="Login"/>
             </form>
+            <h3 id='err' style={{color: 'red'}}></h3>
             <a href="">Forgot Password?</a>
         </>
     )
