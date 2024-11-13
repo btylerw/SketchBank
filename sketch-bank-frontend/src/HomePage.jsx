@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import axios from 'axios';
 
 export const HomePage = () => {
     const location = useLocation();
@@ -15,6 +16,20 @@ export const HomePage = () => {
         setBalance(Number(e.target.newBalance.value));
         changeInputVisibility();
     }
+
+    async function retrieveBalance() {
+        //console.log('into here');
+        await axios.get(`http://localhost:3000/users/${username}/info`)
+        .then(res => {
+            if (res.data.balance) {
+                setBalance(res.data.balance);
+            }
+        })
+    }
+
+    useEffect(() => {
+        retrieveBalance();
+    });
     return (
         <>
             <h1>Hello {username}!</h1>
