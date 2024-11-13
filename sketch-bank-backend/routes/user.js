@@ -18,4 +18,13 @@ router.get('/login', async (req, res) => {
     }
 })
 
+router.post('/signup', async (req, res) => {
+    try {
+        const {username, password, email} = req.body;
+        console.log('Signup Request Received, but no database yet');
+    } catch (err) {
+        console.error(err);
+    }
+})
+
 module.exports = router;

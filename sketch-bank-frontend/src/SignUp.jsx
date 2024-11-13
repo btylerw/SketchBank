@@ -1,4 +1,5 @@
 import { useState } from "react"
+import axios from 'axios';
 import './styles/SignUp.css';
 
 export const SignUp = () => {
@@ -11,10 +12,15 @@ export const SignUp = () => {
         fn(e.target.value);
     }
 
-    function handleSignup(e) {
+    async function handleSignup(e) {
         e.preventDefault();
         if (password === confirmPassword) {
             console.log('Signup good');
+            await axios.post('http://localhost:3000/users/signup', {
+                username: username,
+                password: password,
+                email: email
+            });
         } else {
             console.log('Signup bad');
         }
