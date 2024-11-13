@@ -1,0 +1,11 @@
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.signup-btn {
+    color: black;
+    width: 50px;
+}

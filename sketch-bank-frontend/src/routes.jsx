@@ -1,6 +1,7 @@
 import App from './App.jsx';
 import { LoginPage } from './LoginPage';
 import { HomePage } from './HomePage.jsx';
+import { SignUp } from './SignUp.jsx';
 
 const routes = [
     {
@@ -14,6 +15,10 @@ const routes = [
     {
         path: "/home",
         element: <HomePage />,
+    },
+    {
+        path: "/signup",
+        element: <SignUp />,
     }
 ]
 

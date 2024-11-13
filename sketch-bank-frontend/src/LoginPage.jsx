@@ -40,6 +40,7 @@ export const LoginPage = () => {
             </form>
             <h3 id='err' style={{color: 'red'}}></h3>
             <a href="">Forgot Password?</a>
+            <Link to="/signup">Create Account</Link>
         </>
     )
 }
