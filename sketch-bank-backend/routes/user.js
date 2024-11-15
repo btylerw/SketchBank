@@ -34,6 +34,25 @@ router.get('/:username/info', async (req, res) => {
 router.post('/signup', async (req, res) => {
     try {
         const {username, password, email} = req.body;
+        bcrypt.genSalt(10, (err, salt) => {
+            if (err) {
+                console.error(`Error: ${err}`);
+                return;
+            }
+            bcrypt.hash(password, salt, async(err, password) => {
+                if (err) {
+                    console.error(`Error: ${err}`);
+                }
+                try {
+                    console.log(password);
+                    res.json('User "successfuly created"');
+                }
+                catch (err) {
+                    console.error(`Error: ${err}`);
+                    res.json('Issue creating user');
+                }
+            })
+        })
         console.log('Signup Request Received, but no database yet');
     } catch (err) {
         console.error(err);
