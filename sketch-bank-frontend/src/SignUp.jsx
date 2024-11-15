@@ -5,6 +5,8 @@ import './styles/SignUp.css';
 export const SignUp = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [fname, setFname] = useState('');
+    const [lname, setLname] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState('');
 
@@ -18,6 +20,8 @@ export const SignUp = () => {
             console.log('Signup good');
             await axios.post('http://localhost:3000/users/signup', {
                 username: username,
+                fname: fname,
+                lname: lname,
                 password: password,
                 email: email
             });
@@ -30,6 +34,8 @@ export const SignUp = () => {
         <>
             <form action="" className="signup-container" onSubmit={handleSignup}>
                 Username: <input type="text" onChange={(e) => handleChange(e, setUsername)}/>
+                First Name: <input type="text" onChange={(e) => handleChange(e, setFname)}/>
+                Last Name: <input type="text" onChange={(e) => handleChange(e, setLname)}/>
                 Password: <input type="password" onChange={(e) => handleChange(e, setPassword)}/>
                 Confirm Password: <input type="password" onChange={(e) => handleChange(e, setConfirmPassword)}/>
                 Email: <input type="email" onChange={(e) => handleChange(e, setEmail)}/>

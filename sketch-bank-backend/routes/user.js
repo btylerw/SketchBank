@@ -1,25 +1,44 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
+const pool = require('../db/pool');
 
-var hash = bcrypt.hashSync('password', 10);
-const users = [
-    {id: 1, name: 'user1', balance: 1000.00},
-    {id: 2, name: 'user2', balance: 500.00},
-    {id: 3, name: 'user3', balance: 750.77},
-]
+// Currently bugged
+async function doesUserExist(username) {
+    const { rows } = await pool.query("SELECT * FROM users WHERE username = $1;", [username]);
+    console.log(rows.length);
+    if (rows.length >= 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
+// Authenticates users
 router.get('/login', async (req, res) => {
     try {
+        // User passes in username and password
         const {username, password} = req.query;
-        bcrypt.compare(password, hash, function(err, result) {
-            if (result) {
-                res.json({isValid: true})
-            } else {
-                res.json({isValid: false});
-            }
-        });
+        // Searches db for username and retrieves password
+        await pool.query("SELECT password FROM users WHERE username = $1;", [username])
+        .then(response => {
+            const {rows} = response;
+            // Password pulled from database
+            const userPass = rows[0].password;
+            // Compares entered password with password from database
+            bcrypt.compare(password, userPass, function(err, result) {
+                if (result) {
+                    // if match, validated
+                    res.json({isValid: true});
+                } else {
+                    // no match, don't validate
+                    res.json({isValid: false});
+                }
+            })
+        })
     } catch (err) {
         console.error(err);
+        // There was an error, so we don't validate
+        res.json({isValid: false});
     }
 })
 
@@ -31,9 +50,13 @@ router.get('/:username/info', async (req, res) => {
 
 })
 
+// Creates a new account
 router.post('/signup', async (req, res) => {
     try {
-        const {username, password, email} = req.body;
+        // passed in user data
+        const {username, fname, lname, password, email} = req.body;
+        /*TODO: Insert a check here to make sure UNIQUE values don't already exist in db*/
+        // Begin hashing passed in password
         bcrypt.genSalt(10, (err, salt) => {
             if (err) {
                 console.error(`Error: ${err}`);
@@ -44,7 +67,8 @@ router.post('/signup', async (req, res) => {
                     console.error(`Error: ${err}`);
                 }
                 try {
-                    console.log(password);
+                    // User is entered into database
+                    await pool.query("INSERT INTO users (username, password, email, fname, lname) VALUES ($1, $2, $3, $4, $5);", [username, password, email, fname, lname]);
                     res.json('User "successfuly created"');
                 }
                 catch (err) {
