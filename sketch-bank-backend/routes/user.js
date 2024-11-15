@@ -42,12 +42,11 @@ router.get('/login', async (req, res) => {
     }
 })
 
+// Was previously used to retrieve test information
+// Will be expanded upon once database has more relations
 router.get('/:username/info', async (req, res) => {
     console.log('connected')
     const username = req.params.username;
-    const retrievedUser = users.filter(user => user.name === username);
-    res.json(retrievedUser[0]);
-
 })
 
 // Creates a new account
