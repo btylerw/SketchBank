@@ -12,17 +12,34 @@ export const HomePage = () => {
         setShowForm(!showForm);
     }
 
-    function handleBalanceChange(e) {
-        setBalance(Number(e.target.newBalance.value));
+    // Makes numbers easier to read by adding commas
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    async function handleBalanceChange(e) {
+        e.preventDefault();
+        const newBalance = Number(e.target.newBalance.value);
+        await axios.post('http://localhost:3000/users/changeBalance/', {
+            username,
+            newBalance,
+        })
+        .then(response => {
+            if (response) {
+                const newNum = numberWithCommas(newBalance);
+                setBalance(newNum);
+            }
+        })
         changeInputVisibility();
     }
 
     async function retrieveBalance() {
-        //console.log('into here');
         await axios.get(`http://localhost:3000/users/${username}/info`)
         .then(res => {
-            if (res.data.balance) {
-                setBalance(res.data.balance);
+            console.log(res.data);
+            if (res.data) {
+                const newNum = numberWithCommas(res.data);
+                setBalance(newNum);
             }
         })
     }

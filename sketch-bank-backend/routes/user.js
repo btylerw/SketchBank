@@ -42,13 +42,29 @@ router.get('/login', async (req, res) => {
     }
 })
 
-// Was previously used to retrieve test information
-// Will be expanded upon once database has more relations
+// Finds account information associated with user and sends account balance
 router.get('/:username/info', async (req, res) => {
-    console.log('connected')
     const username = req.params.username;
+    await pool.query ("SELECT accounts.balance FROM accounts JOIN users ON accounts.user_id = users.id WHERE users.username = $1", [username])
+    .then(response => {
+        const {rows} = response;
+        res.json(rows[0].balance);
+    })
 })
 
+// Allows user to change the balance in their account
+router.post('/changeBalance', async (req, res) => {
+    const {username, newBalance} = req.body;
+    // Finds account associated with user
+    await pool.query("SELECT accounts.acc_id FROM accounts JOIN users ON accounts.user_id = users.id WHERE users.username = $1", [username])
+    .then(async (response) => {
+        const {rows} = response;
+        const acc_id = rows[0].acc_id;
+        // Sets new balance
+        await pool.query("UPDATE accounts SET balance = $1 WHERE acc_id = $2", [newBalance, acc_id]);
+        res.json('Balance updated');
+    })
+})
 // Creates a new account
 router.post('/signup', async (req, res) => {
     try {
@@ -67,7 +83,16 @@ router.post('/signup', async (req, res) => {
                 }
                 try {
                     // User is entered into database
-                    await pool.query("INSERT INTO users (username, password, email, fname, lname) VALUES ($1, $2, $3, $4, $5);", [username, password, email, fname, lname]);
+                    await pool.query("INSERT INTO users (username, password, email, fname, lname) VALUES ($1, $2, $3, $4, $5);", [username, password, email, fname, lname])
+                    .then(async () => {
+                        await pool.query("SELECT id FROM users WHERE username = $1", [username])
+                        .then(async (response) => {
+                            const {rows} = response;
+                            const id = rows[0].id;
+                            // Creates accounts table for user
+                            await pool.query("INSERT INTO accounts (user_id, balance) VALUES ($1, $2)", [id, 200]);
+                        })
+                    })
                     res.json('User "successfuly created"');
                 }
                 catch (err) {
