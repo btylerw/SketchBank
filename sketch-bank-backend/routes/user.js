@@ -4,7 +4,7 @@ const pool = require('../db/pool');
 
 // Currently bugged
 async function doesUserExist(username) {
-    const { rows } = await pool.query("SELECT * FROM users WHERE username = $1;", [username]);
+    const { rows } = await pool("SELECT * FROM users WHERE username = $1;", [username]);
     console.log(rows.length);
     if (rows.length >= 1) {
         return true;
@@ -19,9 +19,9 @@ router.get('/login', async (req, res) => {
         // User passes in username and password
         const {username, password} = req.query;
         // Searches db for username and retrieves password
-        await pool.query("SELECT password FROM users WHERE username = $1;", [username])
+        await pool("SELECT password FROM users WHERE username = $1;", [username])
         .then(response => {
-            const {rows} = response;
+            const rows = response;
             // Password pulled from database
             const userPass = rows[0].password;
             // Compares entered password with password from database
@@ -45,9 +45,9 @@ router.get('/login', async (req, res) => {
 // Finds account information associated with user and sends account balance
 router.get('/:username/info', async (req, res) => {
     const username = req.params.username;
-    await pool.query ("SELECT accounts.balance FROM accounts JOIN users ON accounts.user_id = users.id WHERE users.username = $1", [username])
+    await pool("SELECT accounts.balance FROM accounts JOIN users ON accounts.user_id = users.id WHERE users.username = $1;", [username])
     .then(response => {
-        const {rows} = response;
+        const rows = response;
         res.json(rows[0].balance);
     })
 })
@@ -56,12 +56,12 @@ router.get('/:username/info', async (req, res) => {
 router.post('/changeBalance', async (req, res) => {
     const {username, newBalance} = req.body;
     // Finds account associated with user
-    await pool.query("SELECT accounts.acc_id FROM accounts JOIN users ON accounts.user_id = users.id WHERE users.username = $1", [username])
+    await pool("SELECT accounts.acc_id FROM accounts JOIN users ON accounts.user_id = users.id WHERE users.username = $1;", [username])
     .then(async (response) => {
-        const {rows} = response;
+        const rows = response;
         const acc_id = rows[0].acc_id;
         // Sets new balance
-        await pool.query("UPDATE accounts SET balance = $1 WHERE acc_id = $2", [newBalance, acc_id]);
+        await pool("UPDATE accounts SET balance = $1 WHERE acc_id = $2;", [newBalance, acc_id]);
         res.json('Balance updated');
     })
 })
@@ -83,14 +83,14 @@ router.post('/signup', async (req, res) => {
                 }
                 try {
                     // User is entered into database
-                    await pool.query("INSERT INTO users (username, password, email, fname, lname) VALUES ($1, $2, $3, $4, $5);", [username, password, email, fname, lname])
+                    await pool("INSERT INTO users (username, password, email, fname, lname) VALUES ($1, $2, $3, $4, $5);", [username, password, email, fname, lname])
                     .then(async () => {
-                        await pool.query("SELECT id FROM users WHERE username = $1", [username])
+                        await pool("SELECT id FROM users WHERE username = $1", [username])
                         .then(async (response) => {
-                            const {rows} = response;
+                            const rows = response;
                             const id = rows[0].id;
                             // Creates accounts table for user
-                            await pool.query("INSERT INTO accounts (user_id, balance) VALUES ($1, $2)", [id, 200]);
+                            await pool("INSERT INTO accounts (user_id, balance) VALUES ($1, $2);", [id, 200]);
                         })
                     })
                     res.json('User "successfuly created"');
@@ -101,7 +101,7 @@ router.post('/signup', async (req, res) => {
                 }
             })
         })
-        console.log('Signup Request Received, but no database yet');
+        console.log('User created!');
     } catch (err) {
         console.error(err);
     }

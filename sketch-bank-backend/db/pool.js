@@ -1,10 +1,4 @@
-const { Pool } = require('pg');
 const dotenv = require('dotenv').config({ path: '../../.env'});
+const { neon } = require('@neondatabase/serverless');
 
-module.exports = new Pool({
-    host: process.env.DB_URL,
-    user: process.env.ROLE_NAME,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASS,
-    post: process.env.DB_PORT,
-});
+module.exports = new neon(process.env.DATABASE_URL);
