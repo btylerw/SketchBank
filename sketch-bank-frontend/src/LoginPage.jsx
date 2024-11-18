@@ -33,6 +33,9 @@ export const LoginPage = () => {
 
     return (
         <>
+            <div className="splash-msg">
+                Welcome to Sketch Bank!
+            </div>
             <form action="" className="login-container" onSubmit={handleLogin}> 
                 Username: <input type="text" onChange={(e)=> {handleChange(e, setUsername)}}/>
                 Password: <input type="password" onChange={(e)=> {handleChange(e, setPassword)}}/>
