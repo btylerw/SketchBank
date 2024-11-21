@@ -14,6 +14,11 @@ export const SignUp = () => {
         fn(e.target.value);
     }
 
+    function checkPass(e) {
+        const matchPass = document.getElementById('matchPass');
+        matchPass.innerHTML = confirmPassword === password ? '' : 'Passwords do not match';
+    }
+
     async function handleSignup(e) {
         e.preventDefault();
         if (password === confirmPassword) {
@@ -36,8 +41,9 @@ export const SignUp = () => {
                 Username: <input type="text" onChange={(e) => handleChange(e, setUsername)}/>
                 First Name: <input type="text" onChange={(e) => handleChange(e, setFname)}/>
                 Last Name: <input type="text" onChange={(e) => handleChange(e, setLname)}/>
-                Password: <input type="password" onChange={(e) => handleChange(e, setPassword)}/>
-                Confirm Password: <input type="password" onChange={(e) => handleChange(e, setConfirmPassword)}/>
+                Password: <input type="password" onChange={(e) => handleChange(e, setPassword)} onKeyUp={checkPass}/>
+                Confirm Password: <input type="password" onChange={(e) => handleChange(e, setConfirmPassword)} onKeyUp={checkPass}/>
+                <div id="matchPass" style={{color: 'red'}}></div>
                 Email: <input type="email" onChange={(e) => handleChange(e, setEmail)}/>
                 <input type="submit" className="signup-btn" value="Submit"/>
             </form>
