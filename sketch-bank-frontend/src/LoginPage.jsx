@@ -11,7 +11,7 @@ export const LoginPage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
     const auth = useAuth();
-    const {theme, setTheme} = useTheme();
+    const {theme, setTheme, handleThemeChange} = useTheme();
 
     function handleChange(e, fn) {
         fn(e.target.value);
@@ -22,10 +22,6 @@ export const LoginPage = () => {
         const params = {username: inputUser, password: inputPass};
         auth.loginAttempt(params);
         return;
-    }
-
-    const handleThemeChange = () => {
-        setTheme(theme === 'dark' ? 'light' : 'dark');
     }
 
     return (
