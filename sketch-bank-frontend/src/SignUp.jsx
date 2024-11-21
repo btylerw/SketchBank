@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useTheme } from "./ThemeProvider";
 import axios from 'axios';
 import './styles/SignUp.css';
 
@@ -9,6 +10,7 @@ export const SignUp = () => {
     const [lname, setLname] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState('');
+    const {theme, setTheme} = useTheme();
 
     function handleChange(e, fn) {
         fn(e.target.value);
@@ -37,16 +39,18 @@ export const SignUp = () => {
 
     return (
         <>
-            <form action="" className="signup-container" onSubmit={handleSignup}>
-                Username: <input type="text" onChange={(e) => handleChange(e, setUsername)}/>
-                First Name: <input type="text" onChange={(e) => handleChange(e, setFname)}/>
-                Last Name: <input type="text" onChange={(e) => handleChange(e, setLname)}/>
-                Password: <input type="password" onChange={(e) => handleChange(e, setPassword)} onKeyUp={checkPass}/>
-                Confirm Password: <input type="password" onChange={(e) => handleChange(e, setConfirmPassword)} onKeyUp={checkPass}/>
-                <div id="matchPass" style={{color: 'red'}}></div>
-                Email: <input type="email" onChange={(e) => handleChange(e, setEmail)}/>
-                <input type="submit" className="signup-btn" value="Submit"/>
-            </form>
+            <div style={{backgroundColor: theme === 'dark' ? 'black' : 'white'}}>
+                <form action="" className="signup-container" onSubmit={handleSignup}>
+                    Username: <input type="text" onChange={(e) => handleChange(e, setUsername)}/>
+                    First Name: <input type="text" onChange={(e) => handleChange(e, setFname)}/>
+                    Last Name: <input type="text" onChange={(e) => handleChange(e, setLname)}/>
+                    Password: <input type="password" onChange={(e) => handleChange(e, setPassword)} onKeyUp={checkPass}/>
+                    Confirm Password: <input type="password" onChange={(e) => handleChange(e, setConfirmPassword)} onKeyUp={checkPass}/>
+                    <div id="matchPass" style={{color: 'red'}}></div>
+                    Email: <input type="email" onChange={(e) => handleChange(e, setEmail)}/>
+                    <input type="submit" className="signup-btn" value="Submit"/>
+                </form>
+            </div>
         </>
     )
 }
