@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthProvider";
 import axios from 'axios';
 import './styles/LoginPage.css';
 
 export const LoginPage = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [inputUser, setInputUser] = useState('');
+    const [inputPass, setInputPass] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
+    const auth = useAuth();
 
     function handleChange(e, fn) {
         fn(e.target.value);
@@ -15,20 +17,9 @@ export const LoginPage = () => {
 
     async function handleLogin(e) {
         e.preventDefault();
-        const params = {username: username, password: password};
-        await axios.get('http://localhost:3000/users/login', {params: params})
-        .then(res => {
-            if (res.data.isValid) {
-                setIsLoggedIn(res.data.isValid);
-            } else {
-                const errorMsg = document.getElementById('err');
-                errorMsg.innerHTML = 'Invalid Login Info';
-            }
-        });
-    }
-
-    if (isLoggedIn) {
-        navigate('/home', {state:{username: username}});
+        const params = {username: inputUser, password: inputPass};
+        auth.loginAttempt(params);
+        return;
     }
 
     return (
@@ -37,8 +28,8 @@ export const LoginPage = () => {
                 Welcome to Sketch Bank!
             </div>
             <form action="" className="login-container" onSubmit={handleLogin}> 
-                Username: <input type="text" onChange={(e)=> {handleChange(e, setUsername)}}/>
-                Password: <input type="password" onChange={(e)=> {handleChange(e, setPassword)}}/>
+                Username: <input type="text" onChange={(e)=> {handleChange(e, setInputUser)}}/>
+                Password: <input type="password" onChange={(e)=> {handleChange(e, setInputPass)}}/>
                 <input className="login-btn" type="submit" value="Login"/>
             </form>
             <h3 id='err' style={{color: 'red'}}></h3>
