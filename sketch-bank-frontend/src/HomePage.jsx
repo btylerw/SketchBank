@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export const HomePage = () => {
     const [showForm, setShowForm] = useState(false);
-    const {user, logOut, loggedIn} = useAuth();
+    const {user, logOut, loggedIn, setBalance} = useAuth();
 
     const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ export const HomePage = () => {
         .then(response => {
             if (response) {
                 const newNum = numberWithCommas(newBalance);
-                setBalance(newNum);
+                setBalance(newBalance);
             }
         })
         changeInputVisibility();

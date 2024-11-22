@@ -38,12 +38,16 @@ const AuthProvider = ({ children }) => {
         }
     }
 
+    const setBalance = (newBalance) => {
+        setUser({balance: newBalance});
+    }
+
     // Reset everything and log out
     const logOut = () => {
         setUser(null);
         setLoggedIn(false);
     }
-    return <AuthContext.Provider value={{ token, user, loginAttempt, logOut, loggedIn, errorMsg, setErrorMsg }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ token, user, loginAttempt, logOut, loggedIn, errorMsg, setErrorMsg, setBalance }}>{children}</AuthContext.Provider>;
 }
 
 export default AuthProvider;
