@@ -44,7 +44,7 @@ export const HomePage = () => {
     return (
         <>
             <h1>Hello {user.username}!</h1>
-            <h2>You have ${user.balance}</h2>
+            <h2>You have ${numberWithCommas(user.balance)}</h2>
             <button onClick={changeInputVisibility}>Change Balance</button>
             {showForm &&
             <form action="" onSubmit={handleBalanceChange}>
