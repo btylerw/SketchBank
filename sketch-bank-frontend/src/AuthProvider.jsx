@@ -1,45 +1,42 @@
 import { useContext, createContext, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem('site') || '');
-    const [balance, setBalance] = useState(null);
-    const [acc_id, setAccID] = useState(null);
-    const navigate = useNavigate();
+    const [errorMsg, setErrorMsg] = useState('');
+    const [loggedIn, setLoggedIn] = useState(false);
     const loginAttempt = async (data) => {
         const userAttempt = data.username;
         const passAttempt = data.password;
+        const params = {username: userAttempt, password: passAttempt}
+        //setErrorMsg('Invalid Login Info');
+        console.log('test');
         try {
-            await axios.get('http://localhost:3000/login', {
-                username: userAttempt,
-                password: passAttempt
-            }).then(response => response.json())
-            .then(response => {
+            await axios.get('http://localhost:3000/users/login', {
+                params: params
+            }).then(response => {
                 if (response.data) {
-                    setUser(data.username);
-                    setAccID(data.acc_id);
-                    setBalance(data.balance);
-                    navigate('/home');
+                    console.log(response.data);
+                    setUser(response.data);
+                    setLoggedIn(true);
+                    //setErrorMsg('');
                     return;
+                } else {
                 }
-            })
+            });
         } catch(err) {
-            console.error(error);
+            console.error(err);
         }
     }
 
     const logOut = () => {
         setUser(null);
-        setToken('');
-        setBalance(null);
-        setAccID(null);
-        navigate('/login')
+        setLoggedIn(false);
     }
-    return <AuthContext.Provider value={{ token, user, balance, acc_id, loginAttempt, logOut }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ token, user, loginAttempt, logOut, loggedIn, errorMsg, setErrorMsg }}>{children}</AuthContext.Provider>;
 }
 
 export default AuthProvider;

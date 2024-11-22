@@ -17,28 +17,38 @@ async function doesUserExist(username) {
 router.get('/login', async (req, res) => {
     try {
         // User passes in username and password
-        const {username, password} = req.query;
+        const {username, password} = req.query
         // Searches db for username and retrieves password
         await pool("SELECT password FROM users WHERE username = $1;", [username])
         .then(response => {
             const rows = response;
-            // Password pulled from database
-            const userPass = rows[0].password;
-            // Compares entered password with password from database
-            bcrypt.compare(password, userPass, function(err, result) {
-                if (result) {
-                    // if match, validated
-                    res.json({isValid: true});
-                } else {
-                    // no match, don't validate
-                    res.json({isValid: false});
-                }
-            })
+            console.log(rows);
+            console.log('testing');
+            if (rows.password) {
+                // Password pulled from database
+                console.log('Are we working?');
+                const userPass = rows[0].password;
+                // Compares entered password with password from database
+                bcrypt.compare(password, userPass, async function(err, result) {
+                    if (result) {
+                        // if match, validated
+                        // Retrieve user info and send it to user
+                        await pool("SELECT users.id, accounts.acc_id, accounts.balance, users.username FROM accounts JOIN users ON accounts.user_id = users.id WHERE users.username = $1;", [username])
+                        .then(response => {
+                            const rows = response[0];
+                            res.json(rows);
+                        })
+                    } else {
+                        // no match, don't validate
+                        res.send();
+                    }
+                })
+            }
         })
     } catch (err) {
         console.error(err);
         // There was an error, so we don't validate
-        res.json({isValid: false});
+        res.send();
     }
 })
 

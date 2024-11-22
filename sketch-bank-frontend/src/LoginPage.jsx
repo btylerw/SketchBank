@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 import { useTheme } from "./ThemeProvider";
@@ -8,10 +8,15 @@ import './styles/LoginPage.css';
 export const LoginPage = () => {
     const [inputUser, setInputUser] = useState('');
     const [inputPass, setInputPass] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
     const auth = useAuth();
     const {theme, setTheme, handleThemeChange} = useTheme();
+
+    useEffect(() => {
+        if (auth.loggedIn) {
+            navigate('/home');
+        }
+    }, [auth.loggedIn]);
 
     function handleChange(e, fn) {
         fn(e.target.value);
@@ -19,6 +24,7 @@ export const LoginPage = () => {
 
     async function handleLogin(e) {
         e.preventDefault();
+        auth.setErrorMsg('');
         const params = {username: inputUser, password: inputPass};
         auth.loginAttempt(params);
         return;
@@ -35,6 +41,7 @@ export const LoginPage = () => {
                     Password: <input type="password" onChange={(e)=> {handleChange(e, setInputPass)}}/>
                     <input className="login-btn" type="submit" value="Login"/>
                 </form>
+                <div style={{color: 'red'}}>{auth.errorMsg}</div>
                 <h3 id='err' style={{color: 'red'}}></h3>
                 <a href="">Forgot Password?</a>
                 <Link to="/signup">Create Account</Link>
