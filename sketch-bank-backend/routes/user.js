@@ -21,13 +21,10 @@ router.get('/login', async (req, res) => {
         // Searches db for username and retrieves password
         await pool("SELECT password FROM users WHERE username = $1;", [username])
         .then(response => {
-            const rows = response;
-            console.log(rows);
-            console.log('testing');
+            const rows = response[0];
             if (rows.password) {
                 // Password pulled from database
-                console.log('Are we working?');
-                const userPass = rows[0].password;
+                const userPass = rows.password;
                 // Compares entered password with password from database
                 bcrypt.compare(password, userPass, async function(err, result) {
                     if (result) {

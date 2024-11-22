@@ -13,6 +13,7 @@ export const LoginPage = () => {
     const {theme, setTheme, handleThemeChange} = useTheme();
 
     useEffect(() => {
+        // Automatically redirects to homepage if user is logged in
         if (auth.loggedIn) {
             navigate('/home');
         }
@@ -40,8 +41,8 @@ export const LoginPage = () => {
                     Username: <input type="text" onChange={(e)=> {handleChange(e, setInputUser)}}/>
                     Password: <input type="password" onChange={(e)=> {handleChange(e, setInputPass)}}/>
                     <input className="login-btn" type="submit" value="Login"/>
+                    <div style={{color: 'red'}}>{auth.errorMsg}</div>
                 </form>
-                <div style={{color: 'red'}}>{auth.errorMsg}</div>
                 <h3 id='err' style={{color: 'red'}}></h3>
                 <a href="">Forgot Password?</a>
                 <Link to="/signup">Create Account</Link>
