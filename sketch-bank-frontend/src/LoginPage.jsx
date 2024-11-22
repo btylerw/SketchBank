@@ -10,7 +10,8 @@ export const LoginPage = () => {
     const [inputPass, setInputPass] = useState('');
     const navigate = useNavigate();
     const auth = useAuth();
-    const {theme, setTheme, handleThemeChange} = useTheme();
+    const {theme, setTheme, handleThemeChange, siteTheme} = useTheme();
+    const style = siteTheme[theme];
 
     useEffect(() => {
         // Automatically redirects to homepage if user is logged in
@@ -33,7 +34,7 @@ export const LoginPage = () => {
 
     return (
         <>
-            <div style={{backgroundColor: theme === 'dark' ? 'black' : 'white'}}>
+            <div style={{backgroundColor: style.background, color: style.color}}>
                 <div className="splash-msg">
                     Welcome to Sketch Bank!
                 </div>

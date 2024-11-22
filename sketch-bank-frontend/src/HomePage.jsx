@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
+import { useTheme } from "./ThemeProvider";
 import axios from 'axios';
 
 export const HomePage = () => {
     const [showForm, setShowForm] = useState(false);
     const {user, logOut, loggedIn, setBalance} = useAuth();
+    const {theme, siteTheme} = useTheme();
+    const style = siteTheme[theme];
 
     const navigate = useNavigate();
 
@@ -43,6 +46,7 @@ export const HomePage = () => {
 
     return (
         <>
+        <div style={{backgroundColor: style.background, color: style.color}}>
             <h1>Hello {user.username}!</h1>
             <h2>You have ${numberWithCommas(user.balance)}</h2>
             <button onClick={changeInputVisibility}>Change Balance</button>
@@ -52,6 +56,7 @@ export const HomePage = () => {
                 <input type="submit" value="Enter" />
             </form>}
             <button onClick={handleLogOut}>Log Out</button>
+        </div>
         </>
     )
 }

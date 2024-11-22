@@ -10,7 +10,8 @@ export const SignUp = () => {
     const [lname, setLname] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState('');
-    const {theme, setTheme} = useTheme();
+    const {theme, siteTheme} = useTheme();
+    const style = siteTheme[theme];
 
     function handleChange(e, fn) {
         fn(e.target.value);
@@ -39,7 +40,7 @@ export const SignUp = () => {
 
     return (
         <>
-            <div style={{backgroundColor: theme === 'dark' ? 'black' : 'white'}}>
+            <div style={{backgroundColor: style.background, color: style.color}}>
                 <form action="" className="signup-container" onSubmit={handleSignup}>
                     Username: <input type="text" onChange={(e) => handleChange(e, setUsername)}/>
                     First Name: <input type="text" onChange={(e) => handleChange(e, setFname)}/>
