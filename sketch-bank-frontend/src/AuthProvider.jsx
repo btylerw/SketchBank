@@ -39,7 +39,7 @@ const AuthProvider = ({ children }) => {
     }
 
     const setBalance = (newBalance) => {
-        setUser({balance: newBalance});
+        setUser({...user, balance: newBalance});
     }
 
     // Reset everything and log out
