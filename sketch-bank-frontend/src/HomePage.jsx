@@ -30,9 +30,10 @@ export const HomePage = () => {
     async function handleBalanceChange(e) {
         e.preventDefault();
         const username = user.username;
+        const acc_id = user.acc_id;
         const newBalance = Number(e.target.newBalance.value);
         await axios.post('http://localhost:3000/users/changeBalance/', {
-            username,
+            acc_id,
             newBalance,
         })
         .then(response => {

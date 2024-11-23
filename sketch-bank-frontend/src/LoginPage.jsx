@@ -10,7 +10,7 @@ export const LoginPage = () => {
     const [inputPass, setInputPass] = useState('');
     const navigate = useNavigate();
     const auth = useAuth();
-    const {theme, setTheme, handleThemeChange, siteTheme} = useTheme();
+    const {theme, handleThemeChange, siteTheme} = useTheme();
     const style = siteTheme[theme];
 
     useEffect(() => {

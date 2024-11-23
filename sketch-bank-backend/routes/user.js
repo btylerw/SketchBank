@@ -49,28 +49,19 @@ router.get('/login', async (req, res) => {
     }
 })
 
-// Finds account information associated with user and sends account balance
-router.get('/:username/info', async (req, res) => {
-    const username = req.params.username;
-    await pool("SELECT accounts.balance FROM accounts JOIN users ON accounts.user_id = users.id WHERE users.username = $1;", [username])
-    .then(response => {
-        const rows = response;
-        res.json(rows[0].balance);
-    })
-})
-
 // Allows user to change the balance in their account
 router.post('/changeBalance', async (req, res) => {
-    const {username, newBalance} = req.body;
-    // Finds account associated with user
-    await pool("SELECT accounts.acc_id FROM accounts JOIN users ON accounts.user_id = users.id WHERE users.username = $1;", [username])
-    .then(async (response) => {
-        const rows = response;
-        const acc_id = rows[0].acc_id;
-        // Sets new balance
-        await pool("UPDATE accounts SET balance = $1 WHERE acc_id = $2;", [newBalance, acc_id]);
-        res.json('Balance updated');
-    })
+    const {acc_id, newBalance} = req.body;
+    try {
+        // Sets new balance in account with passed in account id
+        await pool("UPDATE accounts SET balance = $1 WHERE acc_id = $2", [newBalance, acc_id])
+        .then(response => {
+            res.json('Balance Updated');
+        })
+    } catch(err) {
+        console.error(err);
+        res.json('Issue updating balance');
+    }
 })
 // Creates a new account
 router.post('/signup', async (req, res) => {
