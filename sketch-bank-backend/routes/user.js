@@ -4,13 +4,9 @@ const pool = require('../db/pool');
 
 // Currently bugged
 async function doesUserExist(username) {
-    const { rows } = await pool("SELECT * FROM users WHERE username = $1;", [username]);
-    console.log(rows.length);
-    if (rows.length >= 1) {
-        return true;
-    } else {
-        return false;
-    }
+    const rows = await pool("SELECT * FROM users WHERE username = $1;", [username]);
+    return rows.length >= 1 ? true : false;
+
 }
 
 // Authenticates users

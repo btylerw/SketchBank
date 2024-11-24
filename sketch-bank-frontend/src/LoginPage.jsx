@@ -35,7 +35,7 @@ export const LoginPage = () => {
     return (
         <>
             <div style={{backgroundColor: style.background, color: style.color}}>
-                <div className="splash-msg">
+                <div className="text-5xl font-bold underline">
                     Welcome to Sketch Bank!
                 </div>
                 <form action="" className="login-container" onSubmit={handleLogin}> 
