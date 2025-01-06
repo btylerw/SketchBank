@@ -41,7 +41,7 @@ export const LoginPage = () => {
                 <form action="" className="login-container" onSubmit={handleLogin}> 
                     Username: <input type="text" onChange={(e)=> {handleChange(e, setInputUser)}}/>
                     Password: <input type="password" onChange={(e)=> {handleChange(e, setInputPass)}}/>
-                    <input className="login-btn" type="submit" value="Login"/>
+                    <input className="login-btn" style={{border: 'solid'}} type="submit" value="Login"/>
                     <div style={{color: 'red'}}>{auth.errorMsg}</div>
                 </form>
                 <h3 id='err' style={{color: 'red'}}></h3>

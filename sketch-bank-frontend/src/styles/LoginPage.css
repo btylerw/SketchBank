@@ -6,8 +6,13 @@
 }
 
 .login-btn {
-    color: black;
     width: 50px;
+    border-radius: 5px;
+}
+
+.login-btn:hover {
+    background-color: grey;
+    transition: .5s;
 }
 
 .splash-msg {
