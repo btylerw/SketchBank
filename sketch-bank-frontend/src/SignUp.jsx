@@ -1,5 +1,7 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useTheme } from "./ThemeProvider";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthProvider";
 import axios from 'axios';
 import './styles/SignUp.css';
 
@@ -12,6 +14,15 @@ export const SignUp = () => {
     const [email, setEmail] = useState('');
     const {theme, siteTheme} = useTheme();
     const style = siteTheme[theme];
+    const navigate = useNavigate();
+    const auth = useAuth();
+
+    useEffect(() => {
+        // Automatically redirects to homepage if user is logged in
+        if (auth.loggedIn) {
+            navigate('/home');
+        }
+    }, [auth.loggedIn]);
 
     function handleChange(e, fn) {
         fn(e.target.value);
@@ -32,7 +43,10 @@ export const SignUp = () => {
                 lname: lname,
                 password: password,
                 email: email
-            });
+            }).then(response => {
+                const params = {username: username, password: password};
+                auth.loginAttempt(params);
+            })
         } else {
             console.log('Signup bad');
         }
@@ -40,7 +54,7 @@ export const SignUp = () => {
 
     return (
         <>
-            <div style={{backgroundColor: style.background, color: style.color}}>
+            <div style={{backgroundColor: style.background, color: style.color, padding: '20px', borderRadius: '10px'}}>
                 <form action="" className="signup-container" onSubmit={handleSignup}>
                     Username: <input type="text" onChange={(e) => handleChange(e, setUsername)}/>
                     First Name: <input type="text" onChange={(e) => handleChange(e, setFname)}/>
@@ -49,7 +63,7 @@ export const SignUp = () => {
                     Confirm Password: <input type="password" onChange={(e) => handleChange(e, setConfirmPassword)} onKeyUp={checkPass}/>
                     <div id="matchPass" style={{color: 'red'}}></div>
                     Email: <input type="email" onChange={(e) => handleChange(e, setEmail)}/>
-                    <input type="submit" className="signup-btn" value="Submit"/>
+                    <input type="submit" style={{border: 'solid'}} className="signup-btn" value="Submit"/>
                 </form>
             </div>
         </>

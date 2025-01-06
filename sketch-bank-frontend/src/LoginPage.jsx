@@ -34,7 +34,7 @@ export const LoginPage = () => {
 
     return (
         <>
-            <div style={{backgroundColor: style.background, color: style.color}}>
+            <div style={{backgroundColor: style.background, color: style.color, padding: '20px', borderRadius: '10px'}}>
                 <div className="text-5xl font-bold underline">
                     Welcome to Sketch Bank!
                 </div>
@@ -44,10 +44,12 @@ export const LoginPage = () => {
                     <input className="login-btn" style={{border: 'solid'}} type="submit" value="Login"/>
                     <div style={{color: 'red'}}>{auth.errorMsg}</div>
                 </form>
-                <h3 id='err' style={{color: 'red'}}></h3>
-                <a href="">Forgot Password?</a>
-                <Link to="/signup">Create Account</Link>
-                <button onClick={handleThemeChange}>Click to Change Theme</button>
+                <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                    <h3 id='err' style={{color: 'red'}}></h3>
+                    <a href="">Forgot Password?</a>
+                    <Link to="/signup">Create Account</Link>
+                    <button onClick={handleThemeChange} style={{width: '50%'}}>Click to Change Theme</button>
+                </div>
             </div>
         </>
     )

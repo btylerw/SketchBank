@@ -3,9 +3,14 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: 5px;
 }
 
 .signup-btn {
-    color: black;
-    width: 50px;
+    border-radius: 5px;
+}
+
+.signup-btn:hover {
+    background-color: grey;
+    transition: .5s;
 }
