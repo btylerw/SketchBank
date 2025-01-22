@@ -34,13 +34,13 @@ export const LoginPage = () => {
 
     return (
         <>
-            <div style={{backgroundColor: style.background, color: style.color, padding: '20px', borderRadius: '10px'}}>
+            <div style={{backgroundColor: style.background, color: style.color, padding: '20px', borderRadius: '10px', height: '100vh', width: '100vw'}}>
                 <div className="text-5xl font-bold underline">
                     Welcome to Sketch Bank!
                 </div>
                 <form action="" className="login-container" onSubmit={handleLogin}> 
-                    Username: <input type="text" onChange={(e)=> {handleChange(e, setInputUser)}}/>
-                    Password: <input type="password" onChange={(e)=> {handleChange(e, setInputPass)}}/>
+                    Username: <input type="text" style={{backgroundColor: style.inputBackgroundColor, color: style.inputColor, border: 'solid'}} onChange={(e)=> {handleChange(e, setInputUser)}}/>
+                    Password: <input type="password" style={{backgroundColor: style.inputBackgroundColor, color: style.inputColor, border: 'solid'}} onChange={(e)=> {handleChange(e, setInputPass)}}/>
                     <input className="login-btn" style={{border: 'solid'}} type="submit" value="Login"/>
                     <div style={{color: 'red'}}>{auth.errorMsg}</div>
                 </form>
@@ -48,7 +48,7 @@ export const LoginPage = () => {
                     <h3 id='err' style={{color: 'red'}}></h3>
                     <a href="">Forgot Password?</a>
                     <Link to="/signup">Create Account</Link>
-                    <button onClick={handleThemeChange} style={{width: '50%'}}>Click to Change Theme</button>
+                    <button onClick={handleThemeChange} style={{width: '50%', color: 'white'}}>Click to Change Theme</button>
                 </div>
             </div>
         </>

@@ -47,7 +47,7 @@ export const HomePage = () => {
 
     return (
         <>
-        <div style={{backgroundColor: style.background, color: style.color}}>
+        <div style={{backgroundColor: style.background, color: style.color, height: '100vh', width: '100vw'}}>
             <h1>Hello {user.username}!</h1>
             <h2>You have ${numberWithCommas(user.balance)}</h2>
             <button onClick={changeInputVisibility}>Change Balance</button>

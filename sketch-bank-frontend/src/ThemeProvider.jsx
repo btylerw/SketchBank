@@ -14,12 +14,18 @@ const ThemeProvider = ({ children }) => {
             color: 'white',
             background: 'black',
             placeholdercolor: 'grey',
+            inputBackgroundColor: '#30302f',
+            inputColor: 'white',
+            inputBorderColor: 'white'
         },
         'light': {
             theme: 'light',
             color: 'black',
             background: 'white',
             placeholdercolor: 'grey',
+            inputBackgroundColor: 'white',
+            inputColor: 'black',
+            inputBorderColor: 'black'
         }
     }
     
