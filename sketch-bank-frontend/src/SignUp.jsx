@@ -28,6 +28,10 @@ export const SignUp = () => {
         fn(e.target.value);
     }
 
+    function handleReturn() {
+        navigate('/login');
+    }
+
     function checkPass(e) {
         const matchPass = document.getElementById('matchPass');
         matchPass.innerHTML = confirmPassword === password ? '' : 'Passwords do not match';
@@ -54,17 +58,18 @@ export const SignUp = () => {
 
     return (
         <>
-            <div style={{backgroundColor: style.background, color: style.color, padding: '20px', borderRadius: '10px'}}>
+            <div style={{backgroundColor: style.background, color: style.color, padding: '20px', borderRadius: '10px', height: '100vh', width: '100vw'}}>
                 <form action="" className="signup-container" onSubmit={handleSignup}>
-                    Username: <input type="text" onChange={(e) => handleChange(e, setUsername)}/>
-                    First Name: <input type="text" onChange={(e) => handleChange(e, setFname)}/>
-                    Last Name: <input type="text" onChange={(e) => handleChange(e, setLname)}/>
-                    Password: <input type="password" onChange={(e) => handleChange(e, setPassword)} onKeyUp={checkPass}/>
-                    Confirm Password: <input type="password" onChange={(e) => handleChange(e, setConfirmPassword)} onKeyUp={checkPass}/>
+                    Username: <input style={{backgroundColor: style.inputBackgroundColor, color: style.inputColor, border: 'solid'}} type="text" onChange={(e) => handleChange(e, setUsername)}/>
+                    First Name: <input style={{backgroundColor: style.inputBackgroundColor, color: style.inputColor, border: 'solid'}} type="text" onChange={(e) => handleChange(e, setFname)}/>
+                    Last Name: <input style={{backgroundColor: style.inputBackgroundColor, color: style.inputColor, border: 'solid'}} type="text" onChange={(e) => handleChange(e, setLname)}/>
+                    Password: <input style={{backgroundColor: style.inputBackgroundColor, color: style.inputColor, border: 'solid'}} type="password" onChange={(e) => handleChange(e, setPassword)} onKeyUp={checkPass}/>
+                    Confirm Password: <input style={{backgroundColor: style.inputBackgroundColor, color: style.inputColor, border: 'solid'}} type="password" onChange={(e) => handleChange(e, setConfirmPassword)} onKeyUp={checkPass}/>
                     <div id="matchPass" style={{color: 'red'}}></div>
-                    Email: <input type="email" onChange={(e) => handleChange(e, setEmail)}/>
+                    Email: <input style={{backgroundColor: style.inputBackgroundColor, color: style.inputColor, border: 'solid'}} type="email" onChange={(e) => handleChange(e, setEmail)}/>
                     <input type="submit" style={{border: 'solid'}} className="signup-btn" value="Submit"/>
                 </form>
+                <button style={{color: 'white'}} onClick={handleReturn}>Back to Login</button>
             </div>
         </>
     )
