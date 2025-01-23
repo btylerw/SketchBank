@@ -2,6 +2,7 @@ import App from './App.jsx';
 import { LoginPage } from './LoginPage';
 import { HomePage } from './HomePage.jsx';
 import { SignUp } from './SignUp.jsx';
+import { RecoverPassword } from './RecoverPassword.jsx';
 
 const routes = [
     {
@@ -19,6 +20,10 @@ const routes = [
     {
         path: "/signup",
         element: <SignUp />,
+    },
+    {
+        path: "/recover",
+        element: <RecoverPassword />,
     }
 ]
 

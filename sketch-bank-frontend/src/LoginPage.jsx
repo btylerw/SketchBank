@@ -46,7 +46,7 @@ export const LoginPage = () => {
                 </form>
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                     <h3 id='err' style={{color: 'red'}}></h3>
-                    <a href="">Forgot Password?</a>
+                    <Link to="/recover">Forgot Password?</Link>
                     <Link to="/signup">Create Account</Link>
                     <button onClick={handleThemeChange} style={{width: '50%', color: 'white'}}>Click to Change Theme</button>
                 </div>
