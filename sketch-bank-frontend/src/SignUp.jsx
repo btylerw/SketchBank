@@ -12,6 +12,7 @@ export const SignUp = () => {
     const [lname, setLname] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const {theme, siteTheme} = useTheme();
     const style = siteTheme[theme];
     const navigate = useNavigate();
@@ -40,17 +41,21 @@ export const SignUp = () => {
     async function handleSignup(e) {
         e.preventDefault();
         if (password === confirmPassword) {
-            console.log('Signup good');
-            await axios.post('http://localhost:3000/users/signup', {
-                username: username,
-                fname: fname,
-                lname: lname,
-                password: password,
-                email: email
-            }).then(response => {
-                const params = {username: username, password: password};
-                auth.loginAttempt(params);
-            })
+            try {
+                await axios.post('http://localhost:3000/users/signup', {
+                    username: username,
+                    fname: fname,
+                    lname: lname,
+                    password: password,
+                    email: email
+                }).then(response => {
+                    const params = {username: username, password: password};
+                    auth.loginAttempt(params);
+                })
+            } catch(error) {
+                console.error(error.response.data.error);
+                setErrorMessage(error.response.data.error);
+            }
         } else {
             console.log('Signup bad');
         }
@@ -70,6 +75,7 @@ export const SignUp = () => {
                     <input type="submit" style={{border: 'solid'}} className="signup-btn" value="Submit"/>
                 </form>
                 <button style={{color: 'white'}} onClick={handleReturn}>Back to Login</button>
+                <div style={{color: 'red', fontSize: '20px'}}>{errorMessage}</div>
             </div>
         </>
     )

@@ -47,7 +47,7 @@ const AuthProvider = ({ children }) => {
         setUser(null);
         setLoggedIn(false);
     }
-    return <AuthContext.Provider value={{ token, user, loginAttempt, logOut, loggedIn, errorMsg, setErrorMsg, setBalance }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ token, user, setUser, loginAttempt, logOut, loggedIn, errorMsg, setErrorMsg, setBalance }}>{children}</AuthContext.Provider>;
 }
 
 export default AuthProvider;

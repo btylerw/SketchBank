@@ -66,6 +66,18 @@ router.post('/signup', async (req, res) => {
         const {username, fname, lname, password, email} = req.body;
         /*TODO: Insert a check here to make sure UNIQUE values don't already exist in db*/
         // Begin hashing passed in password
+        await pool("SELECT username FROM users WHERE username = $1;", [username])
+        .then(res => {
+            if (res[0]) {
+                throw('Username already exists');
+            }
+        });
+        await pool("SELECT email FROM users WHERE email = $1;", [email])
+        .then(res => {
+            if (res[0]) {
+                throw('Email already exists');
+            }
+        })
         bcrypt.genSalt(10, (err, salt) => {
             if (err) {
                 console.error(`Error: ${err}`);
@@ -98,6 +110,7 @@ router.post('/signup', async (req, res) => {
         console.log('User created!');
     } catch (err) {
         console.error(err);
+        res.status(500).json({error: err});
     }
 })
 
