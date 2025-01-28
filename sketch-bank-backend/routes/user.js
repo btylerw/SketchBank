@@ -2,13 +2,6 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const pool = require('../db/pool');
 
-// Currently bugged
-async function doesUserExist(username) {
-    const rows = await pool("SELECT * FROM users WHERE username = $1;", [username]);
-    return rows.length >= 1 ? true : false;
-
-}
-
 // Authenticates users
 router.get('/login', async (req, res) => {
     try {
@@ -64,20 +57,23 @@ router.post('/signup', async (req, res) => {
     try {
         // passed in user data
         const {username, fname, lname, password, email} = req.body;
-        /*TODO: Insert a check here to make sure UNIQUE values don't already exist in db*/
-        // Begin hashing passed in password
+        // Checks to ensure username does not already exist
         await pool("SELECT username FROM users WHERE username = $1;", [username])
         .then(res => {
             if (res[0]) {
+                // Error we will be sending to User
                 throw('Username already exists');
             }
         });
+        // Checks to ensure email does not already exist
         await pool("SELECT email FROM users WHERE email = $1;", [email])
         .then(res => {
             if (res[0]) {
+                // Error we will be sending to User
                 throw('Email already exists');
             }
         })
+        // Begin hashing passed in password
         bcrypt.genSalt(10, (err, salt) => {
             if (err) {
                 console.error(`Error: ${err}`);

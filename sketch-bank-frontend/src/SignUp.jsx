@@ -40,8 +40,10 @@ export const SignUp = () => {
 
     async function handleSignup(e) {
         e.preventDefault();
+        // Ensure passwords match before proceeding
         if (password === confirmPassword) {
             try {
+                // Attempt to create user via back-end endpoint
                 await axios.post('http://localhost:3000/users/signup', {
                     username: username,
                     fname: fname,
@@ -49,10 +51,13 @@ export const SignUp = () => {
                     password: password,
                     email: email
                 }).then(response => {
+                    // If use creation was good, log the user in
                     const params = {username: username, password: password};
                     auth.loginAttempt(params);
                 })
             } catch(error) {
+                // If server sends us an error, parse error and display it to user
+                // Error will be either username or email already in use
                 console.error(error.response.data.error);
                 setErrorMessage(error.response.data.error);
             }
