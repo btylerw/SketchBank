@@ -39,8 +39,8 @@ export const LoginPage = () => {
                     Welcome to Sketch Bank!
                 </div>
                 <form action="" className="login-container" onSubmit={handleLogin}> 
-                    Username: <input type="text" style={{backgroundColor: style.inputBackgroundColor, color: style.inputColor, border: 'solid'}} onChange={(e)=> {handleChange(e, setInputUser)}}/>
-                    Password: <input type="password" style={{backgroundColor: style.inputBackgroundColor, color: style.inputColor, border: 'solid'}} onChange={(e)=> {handleChange(e, setInputPass)}}/>
+                    Username: <input type="text" style={{backgroundColor: style.inputBackgroundColor, color: style.inputColor, border: 'solid', borderRadius: '5px'}} onChange={(e)=> {handleChange(e, setInputUser)}}/>
+                    Password: <input type="password" style={{backgroundColor: style.inputBackgroundColor, color: style.inputColor, border: 'solid', borderRadius: '5px'}} onChange={(e)=> {handleChange(e, setInputPass)}}/>
                     <input className="login-btn" style={{border: 'solid'}} type="submit" value="Login"/>
                     <div style={{color: 'red'}}>{auth.errorMsg}</div>
                 </form>
