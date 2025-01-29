@@ -56,7 +56,8 @@ export const HomePage = () => {
     // Will be replaced by one that saves transaction data to database
     function showValues(e) {
         e.preventDefault();
-        console.log(e.target.date.value);
+        const params = {transactionName: e.target.name.value, transactionPrice: e.target.price.value, transactionCat: e.target.cat.value, transactionDate: e.target.date.value}
+        console.log(params);
     }
     return (
         <>
@@ -74,9 +75,9 @@ export const HomePage = () => {
                 <button onClick={transactionFormVisibility}>Add Transaction</button>
                 {showTransactionForm &&
                     <form onSubmit={showValues}>
-                        Transaction Name: <input type="text" />
-                        Price: <input type="number" />
-                        Category: <input type="text" />
+                        Transaction Name: <input name="name" type="text" />
+                        Price: <input name="price" type="number" step=".01"/>
+                        Category: <input name="cat" type="text" />
                         Date: <input name="date" type="date" />
                         <input type="submit" value="Enter" />                
                     </form>
