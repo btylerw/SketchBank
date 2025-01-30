@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 import { useTheme } from "./ThemeProvider";
+import { Transactions } from "./Transactions";
 import axios from 'axios';
 
 export const HomePage = () => {
@@ -80,7 +81,7 @@ export const HomePage = () => {
                 <input type="submit" value="Enter" />
             </form>}
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                Transactions will go here
+                <Transactions />
                 <button onClick={transactionFormVisibility}>Add Transaction</button>
                 {showTransactionForm &&
                     <form onSubmit={showValues}>

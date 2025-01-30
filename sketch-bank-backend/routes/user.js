@@ -122,5 +122,18 @@ router.post('/addTransaction', async (req, res) => {
     } catch(error) {
         console.error(error);
     }
+});
+
+router.get('/getTransactions', async (req, res) => {
+    try {
+        const {acc_id} = req.query;
+        await pool("SELECT * FROM transactions WHERE aid = $1;", [acc_id])
+        .then(response => {
+            console.log(response);
+            res.json(response);
+        })
+    } catch(err) {
+        console.error(err);
+    }
 })
 module.exports = router;
