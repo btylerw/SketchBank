@@ -54,10 +54,18 @@ export const HomePage = () => {
 
     // Temporary function for transaction submit
     // Will be replaced by one that saves transaction data to database
-    function showValues(e) {
+    async function showValues(e) {
         e.preventDefault();
-        const params = {transactionName: e.target.name.value, transactionPrice: e.target.price.value, transactionCat: e.target.cat.value, transactionDate: e.target.date.value}
-        console.log(params);
+        await axios.post('http://localhost:3000/users/addTransaction', {
+            transactionName: e.target.name.value,
+            transactionPrice: e.target.price.value,
+            transactionCat: e.target.cat.value,
+            transactionDate: e.target.date.value,
+            balance: user.balance
+        })
+        .then(response => {
+            console.log(response);
+        })
     }
     return (
         <>
