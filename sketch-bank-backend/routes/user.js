@@ -113,7 +113,8 @@ router.post('/signup', async (req, res) => {
 router.post('/addTransaction', async (req, res) => {
     try {
         const {acc_id, transCat, transName, transPrice, transDate, balance} = req.body;
-        await pool("INSERT INTO transactions (price, date, category, aid, item) VALUES ($1, $2, $3, $4, $5", [transPrice, transDate, transCat, acc_id, transName])
+        console.log(req.body);
+        await pool("INSERT INTO transactions (price, date, category, aid, item) VALUES ($1, $2, $3, $4, $5);", [transPrice, transDate, transCat, acc_id, transName])
         .then(async () => {
             const newBalance = balance - transPrice;
             await pool("UPDATE accounts SET balance = $1 WHERE acc_id = $2", [newBalance, acc_id]);

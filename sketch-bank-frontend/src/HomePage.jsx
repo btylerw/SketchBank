@@ -57,10 +57,11 @@ export const HomePage = () => {
     async function showValues(e) {
         e.preventDefault();
         await axios.post('http://localhost:3000/users/addTransaction', {
-            transactionName: e.target.name.value,
-            transactionPrice: e.target.price.value,
-            transactionCat: e.target.cat.value,
-            transactionDate: e.target.date.value,
+            acc_id: user.acc_id,
+            transName: e.target.name.value,
+            transPrice: Number(e.target.price.value),
+            transCat: e.target.cat.value,
+            transDate: e.target.date.value,
             balance: user.balance
         })
         .then(response => {
