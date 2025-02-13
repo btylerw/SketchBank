@@ -11,6 +11,7 @@ export const HomePage = () => {
     const {user, logOut, loggedIn, setBalance} = useAuth();
     const {theme, siteTheme} = useTheme();
     const style = siteTheme[theme];
+    const serverUrl = import.meta.env.VITE_SERVER_URL;
 
     const navigate = useNavigate();
 
@@ -31,7 +32,7 @@ export const HomePage = () => {
         const username = user.username;
         const acc_id = user.acc_id;
         const newBalance = Number(e.target.newBalance.value);
-        await axios.post('http://localhost:3000/users/changeBalance/', {
+        await axios.post(`${serverUrl}/users/changeBalance/`, {
             acc_id,
             newBalance,
         })
@@ -57,7 +58,7 @@ export const HomePage = () => {
     // Will be replaced by one that saves transaction data to database
     async function showValues(e) {
         e.preventDefault();
-        await axios.post('http://localhost:3000/users/addTransaction', {
+        await axios.post(`${serverUrl}/users/addTransaction`, {
             acc_id: user.acc_id,
             transName: e.target.name.value,
             transPrice: Number(e.target.price.value),

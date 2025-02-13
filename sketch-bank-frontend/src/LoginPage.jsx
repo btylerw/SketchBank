@@ -12,6 +12,7 @@ export const LoginPage = () => {
     const auth = useAuth();
     const {theme, handleThemeChange, siteTheme} = useTheme();
     const style = siteTheme[theme];
+    const serverURL = import.meta.env.VITE_SERVER_URL;
 
     useEffect(() => {
         // Automatically redirects to homepage if user is logged in

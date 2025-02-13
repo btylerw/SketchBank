@@ -7,6 +7,7 @@ export const Transactions = () => {
     const {user} = useAuth();
     const [transactions, setTransactions] = useState(null);
     const [loading, setLoading] = useState(false);
+    const serverUrl = import.meta.env.VITE_SERVER_URL;
 
     const showTransactions = transactions?.map((transaction, key) => {
         return (
@@ -23,7 +24,7 @@ export const Transactions = () => {
         async function getTrans() {
             const params = {acc_id: user.acc_id};
             try {
-                await axios.get('http://localhost:3000/users/getTransactions', {
+                await axios.get(`${serverUrl}/users/getTransactions`, {
                     params: params,
                 })
                 .then(response => {

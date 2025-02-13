@@ -17,6 +17,7 @@ export const SignUp = () => {
     const style = siteTheme[theme];
     const navigate = useNavigate();
     const auth = useAuth();
+    const serverUrl = import.meta.env.VITE_SERVER_URL;
 
     useEffect(() => {
         // Automatically redirects to homepage if user is logged in
@@ -44,7 +45,7 @@ export const SignUp = () => {
         if (password === confirmPassword) {
             try {
                 // Attempt to create user via back-end endpoint
-                await axios.post('http://localhost:3000/users/signup', {
+                await axios.post(`${serverUrl}/users/signup`, {
                     username: username,
                     fname: fname,
                     lname: lname,

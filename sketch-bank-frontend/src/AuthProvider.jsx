@@ -12,6 +12,7 @@ const AuthProvider = ({ children }) => {
     const [errorMsg, setErrorMsg] = useState('');
     // our login flag, will be replaced by token
     const [loggedIn, setLoggedIn] = useState(false);
+    const serverUrl = import.meta.env.VITE_SERVER_URL;
 
     const loginAttempt = async (data) => {
         // Credentials user provided
@@ -20,7 +21,7 @@ const AuthProvider = ({ children }) => {
         const params = {username: userAttempt, password: passAttempt}
         try {
             // Attempting to log in with credentials
-            await axios.get('http://localhost:3000/users/login', {
+            await axios.get(`${serverUrl}/users/login`, {
                 params: params
             }).then(response => {
                 if (response.data) {
