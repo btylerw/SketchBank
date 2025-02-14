@@ -110,6 +110,38 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+router.post('/changePassword', async (req, res) => {
+    try {
+        // Getting information from frontend
+        const { username, oldPassword, newPassword } = req.body;
+        // Checking to see if user exists and grabbing the stored password
+        await pool("SELECT password FROM users WHERE username = $1", [username])
+        .then(res => {
+            if (!res[0]) {
+                // No user, throw error
+                throw('User does not exist');
+            }
+            // Authenticating old password with password on file
+            bcrypt.compare(res[0], oldPassword, async function (err, result) {
+                if (result) {
+                    // If comparison is good, we salt and hash new password
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(newPassword, salt, async(err, hashedPass) => {
+                            // Save password to database
+                            await pool("UPDATE users SET password = $1 WHERE username = $2", [hashedPass, username])
+                            .then(
+                                res.json('Password changed successfully!')
+                            )
+                        })
+                    })
+                }
+            })
+        });
+    } catch (err) {
+        res.status(500).json({error:err});
+    }
+})
+
 router.post('/addTransaction', async (req, res) => {
     try {
         const {acc_id, transCat, transName, transPrice, transDate, balance} = req.body;
